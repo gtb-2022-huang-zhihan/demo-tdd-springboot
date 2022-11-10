@@ -25,12 +25,12 @@ class SpringBootTestTaskControllerTest {
     @Autowired
     private JacksonTester<List<Task>> tasksJson;
     @Autowired
-    private TaskController taskController;
+    private TaskRepository taskRepository;
 
 
     @AfterEach
     void tearDown() {
-        taskController.deleteAll();
+        taskRepository.deleteAll();
     }
 
     @Test
@@ -47,7 +47,7 @@ class SpringBootTestTaskControllerTest {
         List<Task> tasks = List.of(
                 new Task("task01", true),
                 new Task("task02", false));
-        taskController.save(tasks);
+        taskRepository.saveAll(tasks);
 
         ResponseEntity<String> responseEntity = restTemplate.getForEntity("/tasks", String.class);
 
