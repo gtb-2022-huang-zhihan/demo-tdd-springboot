@@ -71,4 +71,16 @@ class TaskServiceTest {
         assertThat(foundTasks).isEqualTo(List.of(tasks.get(0)));
         verify(taskRepository).findAll();
     }
+
+    @Test
+    void should_return_created_task_when_create_task() {
+        Task task = new Task("task01", true);
+        Task savedTask = new Task(1L, "task01", true);
+        when(taskRepository.save(task)).thenReturn(savedTask);
+
+        Task createdTask = taskService.createTask(task);
+
+        assertThat(createdTask).isEqualTo(savedTask);
+        verify(taskRepository).save(task);
+    }
 }
