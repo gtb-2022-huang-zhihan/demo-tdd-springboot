@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,7 +27,7 @@ public class TaskController {
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Task createdTask(@RequestBody Task task) {
+    public Task createdTask(@Valid @RequestBody Task task) {
         return taskService.createTask(task);
     }
 

@@ -105,4 +105,15 @@ class SpringBootTestTaskControllerTest {
         assertThat(createdTask.getName()).isEqualTo(task.getName());
         assertThat(createdTask.getCompleted()).isEqualTo(task.getCompleted());
     }
+
+    @Test
+    void should_return_bad_request_given_completed_is_null_when_add_task() {
+        Task task = new Task("task01", null);
+        ResponseEntity<ErrorResult> responseEntity = restTemplate.postForEntity("/tasks", task, ErrorResult.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(responseEntity.getHeaders().getContentType()).isEqualTo(MediaType.APPLICATION_JSON);
+        assertThat(responseEntity.getBody()).isNotNull();
+        assertThat(responseEntity.getBody().getMessage()).isEqualTo("completed: 不能为null");
+    }
 }
