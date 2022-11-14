@@ -46,21 +46,20 @@ class TaskRepositoryTest {
         assertThat(foundTasks.get(0).getCompleted()).isTrue();
         assertThat(foundTasks.get(1).getName()).isEqualTo("task02");
         assertThat(foundTasks.get(1).getCompleted()).isFalse();
-
-        //                .containsOnly(
-//                        new Task(1L, "task01", true),
-//                        new Task(2L, "task02", false)
-//                );
-
     }
 
     @Test
     void should_return_saved_task_when_save_task() {
-        Task task = new Task("task01", false);
-        entityManager.persist(task);
+        final var taskName = "task1";
+        final var taskCompletedStatus = false;
+        final var task = new Task(taskName, taskCompletedStatus);
 
-        Task savedTask = taskRepository.save(task);
+        // when
+        final var savedTask = taskRepository.save(task);
 
-        assertThat(savedTask).isEqualTo(task);
+        // then
+        assertThat(savedTask.getId()).isNotNull();
+        assertThat(savedTask.getName()).isEqualTo(taskName);
+        assertThat(savedTask.getCompleted()).isEqualTo(taskCompletedStatus);
     }
 }
